@@ -1,0 +1,97 @@
+<div class="item">
+        <div class="lhs"> 
+            <mat-select  
+                placeholder="Dimension/Metric" 
+                class="lhs-select"  
+                (selectionChange)="selectField($event)"
+                [ngClass]="showErrors && !filter.lhs && 'error' || ''"
+                >
+                <mat-option [value]="field" *ngFor="let field of fields"> {{ field.display }} </mat-option>
+            </mat-select>
+        </div>
+        <div class="operator" >    
+            <mat-select 
+                #operatorSelect
+                placeholder="Operator" 
+                class="operator-select" 
+                (selectionChange)="selectOperator($event)"  
+                [disabled]="!selectedField"
+                [ngClass]="showErrors && !filter.operator && 'error' || ''"
+                >
+                
+                <mat-option [value]="operator" *ngFor="let operator of operators"> {{ operator.display }} </mat-option>
+            </mat-select>
+        </div>
+        <div class="rhs"> 
+          
+            <button 
+                class="selection" 
+                #trigger 
+                (click)="toggleOptionsOverlay()" 
+                [disabled]="!selectedOperator"
+                [ngClass]="showErrors && !filter.rhs && 'error' || ''"
+            > 
+            {{ selectItemsDisplay }}
+             </button>
+            <div class="rhs-overlay" 
+                *ngIf="isRHSOptionsSelected"
+                (click)="toggleOptionsOverlay()"
+                style="position: fixed; top: 0; left: 0; z-index: 1; bottom: 0; right: 0; background: #8080800f; overflow: scroll;">
+                
+                <div (click)="$event.stopPropagation()" 
+                    [style.left]="trigger.getBoundingClientRect().left +  'px'"  
+                    [style.top]="trigger.getBoundingClientRect().top + 'px'"  
+                    class="widget-container">
+                  <app-input-widget class="input-widget" [(value)]="currentInput" [field]="selectedField" (enter)="addCurrentInputToCustomInputs($event)"></app-input-widget>
+                  <div class="custom">
+                        <mat-list *ngIf="currentInput" >
+
+                                <mat-list-item>
+                                        <h3 mat-line> {{ currentInput}} </h3>
+                                        <span mat-line style="font-size: 10px;"> Hit Enter to add </span>
+                                </mat-list-item>
+                        </mat-list>
+                  </div>
+                  <div class="options" *ngIf="selectedOperator">
+               
+                        <mat-nav-list *ngIf="selectedField && !selectedOperator!.allowMultiValues">
+                                <mat-list-item *ngFor="let suggestion of customItems" style="height: 40px" (click)="selectRHS([suggestion])">
+                                   
+                                        <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
+                                </mat-list-item>
+                                <mat-list-item *ngFor="let suggestion of selectedField!.suggestions" style="height: 40px" (click)="selectRHS([suggestion])">
+                                   
+                                    <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
+                                </mat-list-item>
+                        </mat-nav-list>
+                        <ng-container *ngIf="selectedOperator!.allowMultiValues">
+                            <mat-selection-list  #selections>
+                                    <mat-list-option 
+                                        *ngFor="let suggestion of customItems" 
+                                        style="height: 40px" 
+                                        [value]="suggestion"
+                                        [selected]="suggestion.isActive"  
+                                    >
+                                    
+                                            <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
+                                    </mat-list-option>
+                                    <mat-list-option 
+                                        *ngFor="let suggestion of selectedField!.suggestions" 
+                                        style="height: 40px" 
+                                        [value]="suggestion"
+                                        [selected]="suggestion.isActive"  
+                                    >
+                                    
+                                        <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
+                                    </mat-list-option>
+                            </mat-selection-list>
+                            <div class="footer" *ngIf="selectedOperator && selectedOperator!.allowMultiValues">
+                                    <button mat-flat-button color="primary" (click)="selectMultipleOptions(selections.selectedOptions.selected)"> APPLY </button>
+                            </div>
+                        </ng-container>
+                  </div>
+               
+                </div>
+            </div>
+        </div>
+</div>

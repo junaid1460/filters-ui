@@ -1,0 +1,125 @@
+
+.item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 50px;
+    grid-template-rows: 50px;
+
+    .lhs {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        .lhs-select {
+            background: #ebf4fa;
+            border: 1px solid ;
+            color: #34aeff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            max-width: 150px;
+            min-width: 100px;
+        }
+    }
+
+    .rhs {
+        grid-column-start: 3;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        .selection {
+             border: 1px solid;
+             font-size: 14px;
+             padding: 5px 10px;
+             border-radius: 4px;
+             color: #34aeff;
+             cursor: pointer;
+             background: none;
+             &[disabled] {
+                 color: grey;
+             }
+             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+     
+    }
+
+    .operator {
+        grid-column-start: 2;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        display: flex;
+        align-items: center;
+        .operator-select {
+            background: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            max-width: 150px;
+            background: #ebf4fa;
+            border: 1px solid;
+            color: #34aeff;
+            &.mat-select-disabled {
+                color: grey;
+            }
+            min-width: 100px;
+
+        }
+    }
+    .delete {
+        padding: 5px;
+        grid-column-start: 4;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        color: #1b1a1e;
+    }
+}
+
+.selection-menu {
+    width: 200px;
+    max-width: 200px;
+}
+
+.rhs-overlay {
+ 
+    .widget-container {
+        max-height: 400px; 
+        width: 300px; 
+        background: white; 
+        position: fixed; 
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        .input-widget {
+            margin: 14px;
+            height: 30px;
+            font-size: 16px;
+            outline: none;
+       }
+       .options {
+
+       }
+       .footer {
+           display: flex;
+           flex-direction: row-reverse;
+           padding:  10px;
+       }
+    }
+
+}
+
+
+.mat-select-disabled .mat-select-value {
+    color: rgba(black, 0.38);
+}
+
+.error {
+    color: red !important;
+}
