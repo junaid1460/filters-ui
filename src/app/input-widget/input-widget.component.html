@@ -1,0 +1,16 @@
+<ng-container [ngSwitch]="field.type">
+    <input class="input-handler" *ngSwitchCase="'integer'" type="number" [(ngModel)]="value" (keydown.enter)="fireReturnEvent()"/>
+    <input class="input-handler"  *ngSwitchCase="'text'" type="text" [(ngModel)]="value" (keydown.enter)="fireReturnEvent()" />
+    <ng-container *ngSwitchCase="'decimal'" type="number" style="width: 100%">
+        <input 
+            class="input-handler"  
+            type="number" 
+            step="0.01" 
+            [(ngModel)]="value" 
+            (keydown.enter)="fireReturnEvent()" 
+            [decimalPrecision]="2"
+        />
+    
+    </ng-container>
+    <span class="hint"> Type in and hit enter</span>
+</ng-container>
