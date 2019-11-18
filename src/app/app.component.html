@@ -1,20 +1,22 @@
-<div class="query-builder">
+<div class="query-builder" >
     <div class="query-filters">
         <div class="query-filters-sidenav">
             Where
         </div>
         <div class="query-filters-list">
-            <div class="query-filters-list-item" *ngFor="let filter of filters">
-                <div class="lhs"></div>
-                <div class="operator"></div>
-                <div class="rhs"></div>
+            <div class="query-filters-list-item" *ngFor="let filter of filters; let i = index">
+                <app-filter [fields]="fields" [filter]="filter" [showErrors]="showError"></app-filter>
+                <button mat-icon-button (click)="deleteFilter(i)">  
+                    <mat-icon> close </mat-icon>
+                </button>
             </div>
         </div>
         <div class="query-filters-footer">
-            <button class="ui-button primary invert">+ ADD</button>
+            <div class="ripple-effect"></div>
+            <button mat-button color="primary" (click)="addFilter()">+ ADD</button>
         </div>
     </div>
     <div class="query-footer">
-        <button class="ui-button primary">APPLY</button>
+        <button mat-flat-button color="primary" (click)="search()">APPLY</button>
     </div>
 </div>
