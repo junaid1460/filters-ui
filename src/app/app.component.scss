@@ -1,14 +1,15 @@
 
-
+$padding_left_and_right:10px;
 .query-builder {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto 50px;
 
-    margin: 10px;
+    margin: 50px;
     padding: 10px;
     border-radius: 5px;
-    box-shadow:  0 0 10px black;
+    box-shadow:  0 0 10px #dadada;
+    max-width: 600px;
 
     .query-filters {
         display: grid;
@@ -19,6 +20,9 @@
         grid-column-end: 1;
         grid-row-start: 1;
         grid-row-end: 1;
+        
+        padding-top: 10px;
+        background: #ebf4fb;
 
 
 
@@ -27,45 +31,38 @@
             grid-column-end: 2;
             grid-row-start: 1;
             grid-row-end: 3;
-            background: #0000003b;
+            padding: 0 $padding_left_and_right;
+            font-size: 14px;
+            color: #727a80
         }
         .query-filters-list {
             grid-column-start: 2;
             grid-column-end: 3;
             grid-row-start: 1;
             grid-row-end: 3;
-            background: #0000003b;
 
             display: flex;
             flex-direction: column;
 
             .query-filters-list-item {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: 1fr 50px;
                 grid-template-rows: 50px;
 
-                .lhs {
+                .filter {
                     grid-column-start: 1;
                     grid-column-end: 1;
                     grid-row-start: 1;
                     grid-row-end: 1;
-                    background: #0000003b;
                 }
 
-                .rhs {
-                    grid-column-start: 2;
-                    grid-column-end: 2;
+                .delete {
+                    padding: 5px;
+                    grid-column-start: 4;
+                    grid-column-end: 4;
                     grid-row-start: 1;
                     grid-row-end: 1;
-                    background: #0000003b;
-                }
-
-                .operator {
-                    grid-column-start: 3;
-                    grid-column-end: 3;
-                    grid-row-start: 1;
-                    grid-row-end: 1;
-                    background: #0000003b;
+                    color: #1b1a1e;
                 }
             }
         }
@@ -75,7 +72,9 @@
             grid-column-end: 3;
             grid-row-start: 3;
             grid-row-end: 3;
-            background: #0000003b;
+            display: flex;
+            align-items: center;
+            padding: 0 $padding_left_and_right;
         }
     }
 
@@ -87,20 +86,44 @@
 
         display: flex;
         flex-direction: row-reverse;
-        background: #0000003b;
+        align-items: center;
+        padding:0 $padding_left_and_right ;
     }
 }
 
 .ui-button {
+    cursor: pointer;
 
     &.primary {
         background: #1d8bed;
         color: white;
-
+        font-size: 14px;
+        border: none;
+        outline: none;
+        padding: 8px 15px;
 
         &.invert {
-            background: white;
+            background: none;
             color: #1d8bed;
+            &:active {
+                color: white
+            }
         }
+
+     
+    }
+}
+
+
+.ui-icon-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    outline: none;
+
+    :active {
+        color: white;
     }
 }
