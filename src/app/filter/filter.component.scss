@@ -1,4 +1,6 @@
 
+$filters_border_radius:3px;
+$filters_backgroud: white;
 .item {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 50px;
@@ -13,11 +15,11 @@
         display: flex;
         align-items: center;
         .lhs-select {
-            background: #ebf4fa;
+            background: $filters_backgroud;
             border: 1px solid ;
             color: #34aeff;
             padding: 5px 10px;
-            border-radius: 5px;
+            border-radius: $filters_border_radius;
             max-width: 150px;
             min-width: 100px;
         }
@@ -35,16 +37,16 @@
              border: 1px solid;
              font-size: 14px;
              padding: 5px 10px;
-             border-radius: 4px;
+             border-radius: $filters_border_radius;
              color: #34aeff;
              cursor: pointer;
-             background: none;
+             background: $filters_backgroud;
              outline: none;
              &[disabled] {
                  color: grey;
                  cursor: auto;
              }
-             white-space: nowrap;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 100px;
@@ -62,9 +64,9 @@
         .operator-select {
             background: white;
             padding: 5px 10px;
-            border-radius: 5px;
+            border-radius: $filters_border_radius;
             max-width: 150px;
-            background: #ebf4fa;
+            background: $filters_backgroud;
             border: 1px solid;
             color: #34aeff;
             &.mat-select-disabled {
@@ -99,6 +101,12 @@
         z-index: 1;
         display: flex;
         flex-direction: column;
+   
+        max-height: calc(100vh - 25%);
+        overflow: hidden;
+        box-shadow: 0 15px 19px -11px #b7b7b7;
+
+    
         .input-widget {
             margin: 14px;
             height: 30px;
@@ -106,6 +114,7 @@
             outline: none;
        }
        .options {
+           overflow: scroll;
 
        }
        .footer {
