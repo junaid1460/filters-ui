@@ -16,6 +16,7 @@ import {
 import { FilterComponent } from './filter/filter.component';
 import { InputWidgetComponent } from './input-widget/input-widget.component';
 import { DecimalInputDirective } from './decimal-input.directive';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
     declarations: [AppComponent, FilterComponent, InputWidgetComponent, DecimalInputDirective],
@@ -31,6 +32,7 @@ import { DecimalInputDirective } from './decimal-input.directive';
         MatMenuModule,
         MatInputModule,
         MatListModule,
+        ScrollingModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
