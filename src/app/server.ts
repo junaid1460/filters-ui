@@ -1,4 +1,5 @@
 import { Field, Suggestion } from 'src/@types';
+import { countryCodes } from './constants/country_codes';
 
 export class SearchServer {
     static async getFilterFields(): Promise<Field[]> {
@@ -8,23 +9,28 @@ export class SearchServer {
                 type: 'integer',
                 name: 'account',
                 serverFetch: true,
-                suggestions: [
-                    {
-                        display: 'Junaid',
-                        value: 1,
-                    },
-                ],
+                suggestions: new Array(1000)
+                    .fill(0)
+                    .map((_, index) => index + 1)
+                    .map(
+                        (index): Suggestion => ({
+                            display: index.toFixed(),
+                            value: index,
+                        }),
+                    ),
             },
             {
                 display: 'Country',
                 name: 'country',
                 type: 'integer',
-                suggestions: [
-                    {
-                        display: 'India',
-                        value: 91,
-                    },
-                ],
+                suggestions: countryCodes
+                    .map(
+                        ({ name, dial_code }): Suggestion => ({
+                            display: name,
+                            value: +dial_code,
+                        }),
+                    )
+                    .sort((e) => +e.value),
             },
             {
                 display: 'Campaign Name',
