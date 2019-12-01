@@ -1,4 +1,5 @@
-import { Operator, Field } from 'src/@types';
+import { Operator, Field, Suggestion } from 'src/@types';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 export const operators = {
     EQUALS: {
@@ -63,3 +64,7 @@ export const operatorsByDataType: {
 };
 
 export const allOperators = [operators.EQUALS, operators.STARTS_WITH, operators.CONTAINS];
+
+export const addSuggestionObservable = new BehaviorSubject<{ field: Field; suggestion: Suggestion } | undefined>(
+    undefined,
+);
