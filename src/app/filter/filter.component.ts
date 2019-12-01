@@ -1,17 +1,19 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Field, Suggestion, Operator, Filter } from 'src/@types';
-import { operatorsByDataType, allOperators } from '../constants';
+import { operatorsByDataType, allOperators, addSuggestionObservable } from '../constants';
 import { MatSelectChange, MatSelectionList, MatListOption, MatSelect } from '@angular/material';
+import { mergeIterator } from '../utils';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-filter',
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.scss'],
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, OnDestroy {
     @Input() fields: Field[] = [];
     @Input() filter: Filter = {};
-    @Input() showErrors: boolean = false;
+    @Input() showErrors = false;
 
     @ViewChild('operatorSelect') operatorSelect: MatSelect | undefined;
 
@@ -23,11 +25,35 @@ export class FilterComponent implements OnInit {
 
     selectItemsDisplay = 'Select...';
     isRHSOptionsSelected = false;
+    rhsSuggestionsCache: Suggestion[] = [];
 
     currentInput = '';
+    addSuggestionObservablesubscription: Subscription = addSuggestionObservable.subscribe(($event) => {
+        if (
+            $event &&
+            this.selectedField &&
+            this.selectedField.name == $event.field.name &&
+            Array.isArray(this.selectedField.suggestions)
+        ) {
+            this.rhsSuggestionsCache.unshift($event.suggestion);
+            this.selectedField.suggestions.unshift({
+                ...$event.suggestion,
+                isActive: false,
+            });
+            this.rhsSuggestionsCache = this.rhsSuggestionsCache.map((e) => e);
+        } else {
+            // potential bug, log it
+        }
+    });
     constructor() {}
 
     ngOnInit() {}
+
+    ngOnDestroy() {
+        if (this.addSuggestionObservablesubscription) {
+            this.addSuggestionObservablesubscription.unsubscribe();
+        }
+    }
 
     resetSelections() {
         this.selectedItems = [];
@@ -50,6 +76,14 @@ export class FilterComponent implements OnInit {
         this.selectedField = $event.value;
 
         // Cleanup
+        if (this.selectedField && Array.isArray(this.selectedField.suggestions)) {
+            this.rhsSuggestionsCache = this.selectedField.suggestions.map((e) => ({
+                ...e,
+                isActive: false,
+            }));
+        } else {
+            this.rhsSuggestionsCache = [];
+        }
         this.operatorSelect!.value = null;
         this.selectedOperator = undefined;
         this.customItems = [];
@@ -69,11 +103,19 @@ export class FilterComponent implements OnInit {
     }
 
     selectRHS(values: Suggestion[]) {
+        // Validate
+        if (!values.length) {
+            return;
+        }
+
+        // Genrate
         this.isRHSOptionsSelected = false;
         const selectItemsDisplay = values
             .slice(0, 3)
             .map((e) => e.value)
             .join(',');
+
+        // apply
         if (values.length > 3) {
             this.selectItemsDisplay = `${selectItemsDisplay},...`;
         } else {
@@ -111,9 +153,12 @@ export class FilterComponent implements OnInit {
         const item: Suggestion = {
             display: value,
             value,
-            isActive: true,
+            isActive: false,
         };
-        this.customItems.unshift(item);
+        addSuggestionObservable.next({
+            field: this.selectedField!,
+            suggestion: item,
+        });
         if (!this.selectedOperator!.allowMultiValues) {
             this.selectRHS([item]);
         }

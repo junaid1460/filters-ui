@@ -54,7 +54,7 @@
                   </div>
                   <div class="options" *ngIf="selectedOperator">
                
-                        <mat-nav-list *ngIf="selectedField && !selectedOperator!.allowMultiValues">
+                        <mat-nav-list *ngIf="selectedField && !selectedOperator!.allowMultiValues" class="options-list">
                                 <mat-list-item *ngFor="let suggestion of customItems" style="height: 40px" (click)="selectRHS([suggestion])">
                                    
                                         <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
@@ -65,18 +65,11 @@
                                 </mat-list-item>
                         </mat-nav-list>
                         <ng-container *ngIf="selectedOperator!.allowMultiValues">
+                        <cdk-virtual-scroll-viewport style="height: 300px" itemSize="50" minBufferPx="200" maxBufferPx="400"
+                             class="example-viewport">
                             <mat-selection-list  #selections>
                                     <mat-list-option 
-                                        *ngFor="let suggestion of customItems" 
-                                        style="height: 40px" 
-                                        [value]="suggestion"
-                                        [selected]="suggestion.isActive"  
-                                    >
-                                    
-                                            <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
-                                    </mat-list-option>
-                                    <mat-list-option 
-                                        *ngFor="let suggestion of selectedField!.suggestions" 
+                                        *cdkVirtualFor="let suggestion of rhsSuggestionsCache" 
                                         style="height: 40px" 
                                         [value]="suggestion"
                                         [selected]="suggestion.isActive"  
@@ -85,6 +78,8 @@
                                         <h3 mat-line style="font-size: 12px;">  {{ suggestion.value }} </h3>
                                     </mat-list-option>
                             </mat-selection-list>
+                        </cdk-virtual-scroll-viewport>
+
                             <div class="footer" *ngIf="selectedOperator && selectedOperator!.allowMultiValues">
                                     <button mat-flat-button color="primary" (click)="selectMultipleOptions(selections.selectedOptions.selected)"> APPLY </button>
                             </div>
