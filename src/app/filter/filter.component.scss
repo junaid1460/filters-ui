@@ -114,14 +114,22 @@ $filters_backgroud: white;
             outline: none;
        }
        .options {
-           overflow: scroll;
-
-       }
-       .footer {
            display: flex;
-           flex-direction: row-reverse;
-           padding:  10px;
+           flex-direction: column;
+
+           .options-list {
+                max-height: 300px;
+                overflow: scroll;
+           }
+
+           .footer {
+                display: flex;
+                flex-direction: row-reverse;
+                padding:  10px;
+            }
+            
        }
+   
     }
 
 }
