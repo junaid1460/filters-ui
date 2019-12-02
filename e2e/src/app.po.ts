@@ -77,4 +77,10 @@ export class AppPage {
         const applyElement = element(by.xpath(xpath));
         applyElement.click();
     }
+
+    clickMainApplyButton() {
+        const xpath = `/html/body/app-root/div/div[2]/button`;
+        const applyButton = element(by.xpath(xpath));
+        applyButton.click();
+    }
 }

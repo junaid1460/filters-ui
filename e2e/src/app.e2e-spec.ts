@@ -19,7 +19,7 @@ describe('workspace-project App', () => {
     });
 
     it('Clicking add should add one more filter', () => {
-        const timegap = 300;
+        const timegap = 250;
         let filter = 1;
         page.navigateTo();
         browser.sleep(timegap);
@@ -106,6 +106,9 @@ describe('workspace-project App', () => {
         page.clickNthFilterRHSSelector(filter);
         browser.sleep(timegap);
         page.enterInput(filter, 2);
+
+        page.clickMainApplyButton();
+        browser.sleep(3000);
 
         expect(page.getNthFilter(2)).not.toBeNull();
     });
